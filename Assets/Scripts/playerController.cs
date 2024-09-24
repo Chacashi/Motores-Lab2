@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.Examples;
 using UnityEditor;
 using UnityEditor.SearchService;
 using UnityEngine;
@@ -16,7 +17,11 @@ public class playerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float distanceRay;
     [SerializeField] private int numberJumpsExtra;
-   
+    [Header("Cinemachine Properties")]
+    [SerializeField] private CameraControlller cameraController;
+    [SerializeField] private float shakeIntensity = 2.5f;
+    [SerializeField] private float shakeDuration = 5f;
+
     SpriteRenderer _compSpriteRenderer;
     [SerializeField] private bool  isGround;
     int auxJumps=0;
@@ -99,7 +104,7 @@ public class playerController : MonoBehaviour
         if(collision != null && collision.gameObject.tag == "Enemy") 
             {
             contForWin++;
-           
+           cameraController.ShakeCameraSimple(shakeIntensity,shakeDuration);
             DecrementLife(lifeBar.GetComponent<GameManagerController>().GetDamageEnemys());
             Destroy(collision.gameObject);
 
@@ -109,6 +114,7 @@ public class playerController : MonoBehaviour
             isStayObstacule = true;
             if (_compSpriteRenderer.color != Color.red)
             {
+                cameraController.ShakeCameraGradual(shakeIntensity,shakeDuration);
                 DecrementLife(lifeBar.GetComponent<GameManagerController>().GetDamageEnemys());
             }
             
@@ -119,6 +125,7 @@ public class playerController : MonoBehaviour
             isStayObstacule = true;
             if (_compSpriteRenderer.color != Color.blue)
             {
+                cameraController.ShakeCameraGradual(shakeIntensity, shakeDuration);
                 DecrementLife(lifeBar.GetComponent<GameManagerController>().GetDamageEnemys());
             }
 
@@ -129,6 +136,7 @@ public class playerController : MonoBehaviour
             isStayObstacule = true;
             if (_compSpriteRenderer.color != Color.yellow)
             {
+                cameraController.ShakeCameraGradual(shakeIntensity, shakeDuration);
                 DecrementLife(lifeBar.GetComponent<GameManagerController>().GetDamageEnemys());
             }
 
